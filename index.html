@@ -32,26 +32,39 @@
     </video>
 
     <script>
-        // Maximize volume and request fullscreen
         window.onload = function() {
-            var video = document.getElementById("video");
+            const video = document.getElementById("video");
 
-            // Set volume to max (1 is 100%)
+            // Set volume to max
             video.volume = 1;
 
-            // Request fullscreen if supported
-            if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.mozRequestFullScreen) { // Firefox
-                video.mozRequestFullScreen();
-            } else if (video.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                video.webkitRequestFullscreen();
-            } else if (video.msRequestFullscreen) { // IE/Edge
-                video.msRequestFullscreen();
+            // Function to request fullscreen
+            function requestFullscreen() {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.mozRequestFullScreen) { // Firefox
+                        video.mozRequestFullScreen();
+                    } else if (video.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) { // IE/Edge
+                        video.msRequestFullscreen();
+                    }
+                }
             }
 
-            // Simulate pressing F11 for fullscreen mode in browser
-            document.documentElement.requestFullscreen?.();
+            // Trigger fullscreen on load
+            requestFullscreen();
+
+            // Listen for F11 keypress to toggle fullscreen
+            document.addEventListener('keydown', (event) => {
+                if (event.code === 'F11') {
+                    event.preventDefault();
+                    requestFullscreen();
+                }
+            });
         };
     </script>
 

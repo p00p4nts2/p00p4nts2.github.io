@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eaglercraft 1.8.8 java</title>
+    <title>Eaglercraft 1.8.8 Java</title>
     <style>
         /* Make the video fill the entire page */
         body, html {
@@ -43,20 +43,20 @@
                 if (document.fullscreenElement) {
                     document.exitFullscreen();
                 } else {
-                    if (video.requestFullscreen) {
-                        video.requestFullscreen();
-                    } else if (video.mozRequestFullScreen) { // Firefox
-                        video.mozRequestFullScreen();
-                    } else if (video.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                        video.webkitRequestFullscreen();
-                    } else if (video.msRequestFullscreen) { // IE/Edge
-                        video.msRequestFullscreen();
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                        document.documentElement.mozRequestFullScreen();
+                    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                        document.documentElement.webkitRequestFullscreen();
+                    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                        document.documentElement.msRequestFullscreen();
                     }
                 }
             }
 
-            // Trigger fullscreen on load
-            requestFullscreen();
+            // Trigger fullscreen on click anywhere on the page
+            document.addEventListener('click', requestFullscreen);
 
             // Listen for F11 keypress to toggle fullscreen
             document.addEventListener('keydown', (event) => {

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Video</title>
+    <style>
+        /* Make the video fill the entire page */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <video id="video" autoplay muted loop>
+        <source src="big_buck_bunny_720p_1mb.mp4" type="video/mp4">
+        <!-- Add other sources if necessary, like WebM or Ogg for better compatibility -->
+        <p>Your browser does not support HTML5 video.</p>
+    </video>
+
+    <script>
+        // Maximize volume and request fullscreen
+        window.onload = function() {
+            var video = document.getElementById("video");
+
+            // Set volume to max (1 is 100%)
+            video.volume = 1;
+
+            // Request fullscreen if supported
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.mozRequestFullScreen) { // Firefox
+                video.mozRequestFullScreen();
+            } else if (video.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) { // IE/Edge
+                video.msRequestFullscreen();
+            }
+
+            // Simulate pressing F11 for fullscreen mode in browser
+            document.documentElement.requestFullscreen?.();
+        };
+    </script>
+
+</body>
+</html>

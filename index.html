@@ -26,7 +26,7 @@
 <body>
 
     <video id="video" autoplay muted loop>
-        <source src="【MMD】 Anamanaguchi - Miku ft. 初音ミク 【Hatsune Miku 16th Anniversary】 (online-video-cutter.com) (1).mp4" type="video/mp4">
+        <source src="norus.mp4" type="video/mp4">
         <!-- Add other sources if necessary, like WebM or Ogg for better compatibility -->
         <p>Your browser does not support HTML5 video.</p>
     </video>
@@ -34,6 +34,11 @@
     <script>
         window.onload = function() {
             const video = document.getElementById("video");
+
+            // Set the video to start at 24 seconds once metadata is loaded
+            video.addEventListener('loadedmetadata', () => {
+                video.currentTime = 24;
+            });
 
             // Set volume to max
             video.volume = 1;
@@ -67,17 +72,6 @@
             });
         };
     </script>
-    <script>
-    document.body.addEventListener('click', () => {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.webkitRequestFullscreen) { // For Safari
-        document.documentElement.webkitRequestFullscreen();
-      } else if (document.documentElement.msRequestFullscreen) { // For IE11
-        document.documentElement.msRequestFullscreen();
-      }
-    });
-  </script>
 
 </body>
 </html>

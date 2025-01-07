@@ -32,21 +32,19 @@
     </video>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const video = document.getElementById('video');
 
-            // Ensure the video metadata is loaded before setting currentTime
-            video.addEventListener('loadedmetadata', function() {
-                // Set the video to start at 24 seconds
-                video.currentTime = 24;
-                // Play the video
-                video.play();
+            // Wait for user interaction to play the video with sound
+            document.addEventListener('click', function () {
+                if (video.paused) {
+                    video.volume = 1; // Set the volume to 100%
+                    video.currentTime = 24; // Start from 24 seconds
+                    video.play(); // Play the video
+                }
             });
 
-            // Set volume to max
-            video.volume = 20;
-
-            // Function to request fullscreen
+            // Function to toggle fullscreen
             function requestFullscreen() {
                 if (document.fullscreenElement) {
                     document.exitFullscreen();
@@ -63,11 +61,11 @@
                 }
             }
 
-            // Trigger fullscreen on click anywhere on the page
-            document.addEventListener('click', requestFullscreen);
+            // Toggle fullscreen on click anywhere on the page
+            document.addEventListener('dblclick', requestFullscreen);
 
             // Listen for F11 keypress to toggle fullscreen
-            document.addEventListener('keydown', function(event) {
+            document.addEventListener('keydown', function (event) {
                 if (event.code === 'F11') {
                     event.preventDefault();
                     requestFullscreen();

@@ -24,8 +24,8 @@
     </style>
 </head>
 <body>
-    <video id="fullscreenVideo" autoplay muted playsinline>
-        <source src="video.mp4" type="video/mp4">
+    <video id="fullscreenVideo" autoplay playsinline muted>
+        <source src="your-video-file.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -37,23 +37,27 @@
             const enterFullscreen = () => {
                 if (document.documentElement.requestFullscreen) {
                     document.documentElement.requestFullscreen();
-                } else if (document.documentElement.webkitRequestFullscreen) { // Safari compatibility
+                } else if (document.documentElement.webkitRequestFullscreen) {
                     document.documentElement.webkitRequestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) { // Firefox compatibility
+                } else if (document.documentElement.mozRequestFullScreen) {
                     document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge compatibility
+                } else if (document.documentElement.msRequestFullscreen) {
                     document.documentElement.msRequestFullscreen();
                 }
             };
 
-            // Ensure the video plays with sound and fullscreen
-            enterFullscreen();
-            video.muted = false;
-            video.volume = 1.0;
+            // Autoplay video
+            const attemptPlay = () => {
+                video.muted = false; // Unmute the video
+                video.volume = 1.0; // Set volume to max
+                video.play().catch((error) => {
+                    console.error('Autoplay failed, retrying...', error);
+                    setTimeout(attemptPlay, 1000); // Retry playback every second
+                });
+            };
 
-            video.play().catch(error => {
-                console.error('Autoplay failed:', error);
-            });
+            enterFullscreen(); // Force fullscreen
+            attemptPlay(); // Attempt to autoplay
         });
     </script>
 </body>

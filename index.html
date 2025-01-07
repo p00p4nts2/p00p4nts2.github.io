@@ -3,59 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eaglercraftx 1.8.8</title>
+    <title>Eaglercraft 1.8.8</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             overflow: hidden;
+            height: 100%;
+            width: 100%;
+            background-color: black;
         }
         video {
-            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <video id="myVideo" autoplay playsinline>
+    <video id="fullscreenVideo" autoplay muted playsinline>
         <source src="hello.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('myVideo');
+            const video = document.getElementById('fullscreenVideo');
 
-            // Request fullscreen on load
-            video.addEventListener('canplay', () => {
-                if (video.requestFullscreen) {
-                    video.requestFullscreen();
-                } else if (video.webkitRequestFullscreen) { // For Safari
-                    video.webkitRequestFullscreen();
-                } else if (video.msRequestFullscreen) { // For IE/Edge
-                    video.msRequestFullscreen();
+            // Force fullscreen when the page loads
+            const enterFullscreen = () => {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Safari compatibility
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox compatibility
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge compatibility
+                    document.documentElement.msRequestFullscreen();
                 }
-                video.play();
-            });
+            };
 
-            // Prevent escape from fullscreen
-            document.addEventListener('fullscreenchange', () => {
-                if (!document.fullscreenElement) {
-                    video.requestFullscreen();
-                }
-            });
+            // Ensure the video plays with sound and fullscreen
+            enterFullscreen();
+            video.muted = false;
+            video.volume = 1.0;
 
-            document.addEventListener('webkitfullscreenchange', () => {
-                if (!document.webkitFullscreenElement) {
-                    video.webkitRequestFullscreen();
-                }
-            });
-
-            document.addEventListener('msfullscreenchange', () => {
-                if (!document.msFullscreenElement) {
-                    video.msRequestFullscreen();
-                }
+            video.play().catch(error => {
+                console.error('Autoplay failed:', error);
             });
         });
     </script>

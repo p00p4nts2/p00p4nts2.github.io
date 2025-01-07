@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eaglercraft 1.8.8 Java</title>
+    <title>Eaglercraft 1.8.8</title>
     <style>
-        /* Make the video fill the entire page */
         body, html {
             margin: 0;
             padding: 0;
+            overflow: hidden;
             height: 100%;
+            width: 100%;
             background-color: black;
         }
-
         video {
             position: absolute;
             top: 0;
@@ -24,58 +24,37 @@
     </style>
 </head>
 <body>
-
-    <video id="video" loop>
+    <video id="fullscreenVideo" autoplay muted playsinline>
         <source src="video.mp4" type="video/mp4">
-        <!-- Add other sources if necessary, like WebM or Ogg for better compatibility -->
-        <p>Your browser does not support HTML5 video.</p>
+        Your browser does not support the video tag.
     </video>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('video');
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('fullscreenVideo');
 
-            // Ensure the video metadata is loaded before setting currentTime
-            video.addEventListener('loadedmetadata', function() {
-                // Set the video to start at 24 seconds
-                video.currentTime = 24;
-                // Play the video
-                video.play();
-            });
-
-            // Set volume to max
-            video.volume = 1;
-
-            // Function to request fullscreen
-            function requestFullscreen() {
-                if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                } else {
-                    if (document.documentElement.requestFullscreen) {
-                        document.documentElement.requestFullscreen();
-                    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-                        document.documentElement.mozRequestFullScreen();
-                    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                        document.documentElement.webkitRequestFullscreen();
-                    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-                        document.documentElement.msRequestFullscreen();
-                    }
+            // Force fullscreen when the page loads
+            const enterFullscreen = () => {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Safari compatibility
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox compatibility
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge compatibility
+                    document.documentElement.msRequestFullscreen();
                 }
-            }
+            };
 
-            // Trigger fullscreen on click anywhere on the page
-            document.addEventListener('click', requestFullscreen);
+            // Ensure the video plays with sound and fullscreen
+            enterFullscreen();
+            video.muted = false;
+            video.volume = 1.0;
 
-            // Listen for F11 keypress to toggle fullscreen
-            document.addEventListener('keydown', function(event) {
-                if (event.code === 'F11') {
-                    event.preventDefault();
-                    requestFullscreen();
-                }
+            video.play().catch(error => {
+                console.error('Autoplay failed:', error);
             });
         });
     </script>
-
 </body>
 </html>
-

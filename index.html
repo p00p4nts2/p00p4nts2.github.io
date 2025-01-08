@@ -33,27 +33,35 @@
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('fullscreenVideo');
 
-            // Force fullscreen when the page loads
             const enterFullscreen = () => {
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                } else if (document.documentElement.webkitRequestFullscreen) { // Safari compatibility
-                    document.documentElement.webkitRequestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) { // Firefox compatibility
-                    document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge compatibility
-                    document.documentElement.msRequestFullscreen();
+                const docEl = document.documentElement;
+                if (docEl.requestFullscreen) {
+                    docEl.requestFullscreen();
+                } else if (docEl.webkitRequestFullscreen) {
+                    docEl.webkitRequestFullscreen();
+                } else if (docEl.mozRequestFullScreen) {
+                    docEl.mozRequestFullScreen();
+                } else if (docEl.msRequestFullscreen) {
+                    docEl.msRequestFullscreen();
                 }
             };
 
-            // Ensure the video plays with sound and fullscreen
-            enterFullscreen();
-            video.muted = true;
-            video.volume = 1.0;
+            // Ensure the video plays and log any issues
+            const playVideo = () => {
+                video.play().catch(error => {
+                    console.error('Autoplay failed:', error);
+                });
+            };
 
-            video.play().catch(error => {
-                console.error('Autoplay failed:', error);
-            });
+            // Mute and autoplay the video
+            video.muted = true; // Required for autoplay in most browsers
+            video.autoplay = true;
+
+            // Enter fullscreen
+            enterFullscreen();
+
+            // Attempt to play the video
+            playVideo();
         });
     </script>
 </body>
